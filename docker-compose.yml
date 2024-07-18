@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_DB: flowerly
+      POSTGRES_USER: flowerly
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: flowerly
+      DB_USERNAME: flowerly
+      DB_PASSWORD: secret
+    volumes:
+      - ./backend:/var/www/html
+    ports:
+      - "9000:80"
+    depends_on:
+      - postgres
+
+  frontend:
+    image: node:lts  # Use the official Node image
+    container_name: frontend
+    working_dir: /usr/src/app
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "4200:4200"
+    command: >
+      sh -c "
+      npm install &&
+      npm install -g @angular/cli &&
+      ng serve --host 0.0.0.0 --poll 2000 --disable-host-check
+      "
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
