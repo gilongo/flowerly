@@ -4,20 +4,18 @@ use Illuminate\Support\Facades\Route;
 use App\Interfaces\Http\Controllers\ProductController;
 use App\Interfaces\Http\Controllers\CustomerController;
 
-// Display a list of products
-Route::get('/products', [ProductController::class, 'index'])->name('api.products.index');
+Route::prefix('/products')->name('api.products.')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('index');
+    Route::get('/{id}', [ProductController::class, 'show'])->name('show');
+    Route::post('/', [ProductController::class, 'store'])->name('store');
+    Route::patch('/{id}', [ProductController::class, 'update'])->name('update');
+    Route::delete('/{id}', [ProductController::class, 'destroy'])->name('destroy');
+});
 
-// Store a newly created product
-Route::post('/products', [ProductController::class, 'store'])->name('api.products.store');
-
-// Show a specific product
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('api.products.show');
-
-// Update a specific product
-Route::put('/products/{id}', [ProductController::class, 'update'])->name('api.products.update');
-
-// Delete a specific product
-Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('api.products.destroy');
-
-
-Route::post('/customers', [CustomerController::class, 'store'])->name('api.customers.store');
+Route::prefix('/customers')->name('api.customers.')->group(function () {
+    Route::get('/', [CustomerController::class, 'index'])->name('index');
+    Route::get('/{id}', [CustomerController::class, 'show'])->name('show');
+    Route::post('/', [CustomerController::class, 'store'])->name('store');
+    Route::patch('/{id}', [CustomerController::class, 'update'])->name('update');
+    Route::delete('/{id}', [CustomerController::class, 'destroy'])->name('destroy');
+});
