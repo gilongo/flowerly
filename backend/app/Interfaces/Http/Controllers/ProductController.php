@@ -41,7 +41,10 @@ class ProductController extends Controller
             $query = new GetAllProductsQuery();
             $productDTOs = $this->getAllProductsHandler->handle($query);
 
-            return response()->json(['products' => $productDTOs]);
+            return response()->json(['data' => [
+                'count' => count($productDTOs),
+                'products' => $productDTOs
+            ]]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
