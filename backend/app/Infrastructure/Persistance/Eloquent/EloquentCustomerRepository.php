@@ -16,7 +16,19 @@ class EloquentCustomerRepository implements CustomerRepositoryInterface
 {
     public function findById(CustomerId $id): ?Customer
     {
-        //
+        $eloquentCustomer = EloquentCustomer::find($id->getId());
+        if($eloquentCustomer){
+            return new Customer(
+                new CustomerId($id->getId()),
+                new CustomerFirstName($eloquentCustomer->first_name),
+                new CustomerLastName($eloquentCustomer->last_name),
+                new CustomerAddress($eloquentCustomer->address),
+                new CustomerEmail($eloquentCustomer->email),
+                new CustomerPhone($eloquentCustomer->phone)
+            );
+        }
+
+        return null;
     }
 
     public function findAll(): array

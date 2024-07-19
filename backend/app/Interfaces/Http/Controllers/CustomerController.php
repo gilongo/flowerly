@@ -4,9 +4,12 @@ namespace App\Interfaces\Http\Controllers;
 
 use App\Application\Customers\Handler\CreateCustomerHandler;
 use App\Application\Customers\Handler\GetAllCustomersHandler;
+use App\Application\Customers\Handler\GetCustomerHandler;
 use App\Application\Customers\Query\GetAllCustomersQuery;
+use App\Application\Customers\Query\GetCustomerQuery;
 use App\Application\Customers\Command\CreateCustomerCommand;
 use App\Application\Customers\DTO\CustomerDTO;
+use App\Domain\Customers\ValueObjects\CustomerId;
 use App\Interfaces\Http\Requests\Customers\CreateCustomerRequest;
 use Illuminate\Http\Request;
 
@@ -14,14 +17,17 @@ class CustomerController extends Controller
 {
     private $createCustomerHandler;
     private $getAllCustomersHandler;
+    private $getCustomerHandler;
 
     public function __construct(
         CreateCustomerHandler $createCustomerHandler,
-        GetAllCustomersHandler $getAllCustomersHandler
+        GetAllCustomersHandler $getAllCustomersHandler,
+        GetCustomerHandler $getCustomerHandler
         )
     {
         $this->createCustomerHandler = $createCustomerHandler;
         $this->getAllCustomersHandler = $getAllCustomersHandler;
+        $this->getCustomerHandler = $getCustomerHandler;
     }
 
     public function index(Request $request)
@@ -36,6 +42,18 @@ class CustomerController extends Controller
             ]]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function show(string $id)
+    {
+        try {
+            $query = new GetCustomerQuery(new CustomerId($id));
+            $customerDTO = $this->getCustomerHandler->handle($query);
+
+            return response()->json($customerDTO);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 404);
         }
     }
 
