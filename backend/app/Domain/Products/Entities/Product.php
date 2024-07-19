@@ -34,12 +34,12 @@ class Product
         return $this->price;
     }
 
-    public function setPrice($price)
+    public function setPrice(ProductPrice $price)
     {
         $this->price = $price;
     }
 
-    public function setName($name)
+    public function setName(ProductName $name)
     {
         $this->name = $name;
     }
