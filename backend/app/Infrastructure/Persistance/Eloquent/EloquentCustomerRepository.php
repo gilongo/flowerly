@@ -21,7 +21,18 @@ class EloquentCustomerRepository implements CustomerRepositoryInterface
 
     public function findAll(): array
     {
-        //
+        $eloquentCustomers = EloquentCustomer::all();
+        $customers = array_map(function ($customer)  {
+            return new Customer(
+                new CustomerId($customer['id']),
+                new CustomerFirstName($customer['first_name']),
+                new CustomerLastName($customer['last_name']),
+                new CustomerAddress($customer['address']),
+                new CustomerEmail($customer['email']),
+                new CustomerPhone($customer['phone'])
+            );
+        }, $eloquentCustomers->toArray());
+        return $customers;
     }
 
     public function save(Customer $customer): CustomerId
