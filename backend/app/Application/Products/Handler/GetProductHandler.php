@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Application\Handler;
+namespace App\Application\Products\Handler;
 
-use App\Application\DTO\ProductDTO;
-use App\Application\Query\GetProductQuery;
+use App\Application\Products\DTO\ProductDTO;
+use App\Application\Products\Query\GetProductQuery;
 use App\Domain\Products\Repositories\ProductRepositoryInterface;
 
 class GetProductHandler

@@ -2,17 +2,17 @@
 
 namespace App\Interfaces\Http\Controllers;
 
-use App\Application\Handler\CreateProductHandler;
-use App\Application\Handler\GetAllProductsHandler;
-use App\Application\Handler\GetProductHandler;
-use App\Application\Handler\DeleteProductHandler;
-use App\Application\Query\GetAllProductsQuery;
-use App\Application\Query\GetProductQuery;
-use App\Application\Command\CreateProductCommand;
-use App\Application\Command\DeleteProductCommand;
-use App\Application\DTO\ProductDTO;
+use App\Application\Products\Handler\CreateProductHandler;
+use App\Application\Products\Handler\GetAllProductsHandler;
+use App\Application\Products\Handler\GetProductHandler;
+use App\Application\Products\Handler\DeleteProductHandler;
+use App\Application\Products\Query\GetAllProductsQuery;
+use App\Application\Products\Query\GetProductQuery;
+use App\Application\Products\Command\CreateProductCommand;
+use App\Application\Products\Command\DeleteProductCommand;
+use App\Application\Products\DTO\ProductDTO;
 use App\Domain\Products\ValueObjects\ProductId;
-use App\Interfaces\Http\Requests\CreateProductRequest;
+use App\Interfaces\Http\Requests\Products\CreateProductRequest;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller

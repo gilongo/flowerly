@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Application\Handler;
+namespace App\Application\Products\Handler;
 
-use App\Application\Command\DeleteProductCommand;
+use App\Application\Products\Command\DeleteProductCommand;
 use App\Domain\Products\Repositories\ProductRepositoryInterface;
 
 class DeleteProductHandler

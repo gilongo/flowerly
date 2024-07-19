@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Application\Query;
+namespace App\Application\Products\Command;
 
 use App\Domain\Products\ValueObjects\ProductId;
 
-class GetProductQuery
+class DeleteProductCommand
 {
     private ProductId $id;
 

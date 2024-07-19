@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Application\Handler;
+namespace App\Application\Products\Handler;
 
-use App\Application\Command\CreateProductCommand;
+use App\Application\Products\Command\CreateProductCommand;
 use App\Domain\Products\Entities\Product;
 use App\Domain\Products\Repositories\ProductRepositoryInterface;
 use App\Domain\Products\ValueObjects\ProductId;
