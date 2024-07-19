@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Interfaces\Http\Controllers\ProductController;
+use App\Interfaces\Http\Controllers\CustomerController;
 
 // Display a list of products
 Route::get('/products', [ProductController::class, 'index'])->name('api.products.index');
@@ -17,3 +18,6 @@ Route::put('/products/{id}', [ProductController::class, 'update'])->name('api.pr
 
 // Delete a specific product
 Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('api.products.destroy');
+
+
+Route::post('/customers', [CustomerController::class, 'store'])->name('api.customers.store');
