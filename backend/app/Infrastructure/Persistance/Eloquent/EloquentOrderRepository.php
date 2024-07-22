@@ -68,7 +68,7 @@ class EloquentOrderRepository implements OrderRepositoryInterface
 
     public function delete(OrderId $id): void
     {
-        //
+        EloquentOrder::destroy($id->getId());
     }
 
     private function mapToDomain(EloquentOrder $eloquentOrder)
@@ -80,7 +80,7 @@ class EloquentOrderRepository implements OrderRepositoryInterface
         );
 
         foreach ($eloquentOrder->products as $product) {
-            $order->addProduct(
+            $order->updateProducts(
                 new Product(
                     new ProductId($product->id),
                     new ProductName($product->name),

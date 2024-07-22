@@ -33,4 +33,9 @@ class OrdersProducts
     {
         return $this->quantity;
     }
+
+    public function setQuantity(int $quantity)
+    {
+        $this->quantity = $quantity;
+    }
 }

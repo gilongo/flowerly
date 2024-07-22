@@ -51,7 +51,7 @@ class Order
         return $this->totalPrice;
     }
 
-    public function calculateTotalPrice(): void
+    private function calculateTotalPrice(): void
     {
         $total = 0;
         foreach ($this->products as $orderProduct) {
@@ -60,18 +60,37 @@ class Order
         $this->totalPrice = $total;
     }
 
-    public function addProduct(Product $product, int $quantity): void
+    public function updateProducts(Product $product, int $quantity): void
     {
         $existingOrderProduct = $this->products->first(function(OrdersProducts $ordersProducts) use ($product) {
             return $ordersProducts->getProduct()->getId()->getId() === $product->getId()->getId();
         });
 
         if($existingOrderProduct) {
-            $existingOrderProduct->setQuantity($existingOrderProduct->getQuantity() + $quantity);
+            if ($quantity > 0 ) {
+                $existingOrderProduct->setQuantity($quantity);
+            } else {
+                $this->products = $this->products->reject(function (OrdersProducts $ordersProducts) use ($product) {
+                    return $ordersProducts->getProduct()->getId()->getId() === $product->getId()->getId();
+                });
+            }
         } else {
-            $this->products->push(new OrdersProducts($this->id, $product, $quantity));
+            if ($quantity > 0 ) {
+                $this->products->push(new OrdersProducts($this->id, $product, $quantity));
+            }
         }
 
         $this->calculateTotalPrice();
+    }
+
+    public function setProducts(Collection $products): void
+    {
+        $this->products = $products;
+        $this->calculateTotalPrice();
+    }
+
+    public function setDescription(OrderDescription $description): void
+    {
+        $this->description = $description;
     }
 }

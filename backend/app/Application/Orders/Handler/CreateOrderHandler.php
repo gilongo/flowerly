@@ -56,7 +56,7 @@ class CreateOrderHandler
                 $productData['quantity']
             );
 
-            $order->addProduct($product, $productData['quantity']);
+            $order->updateProducts($product, $productData['quantity']);
         }
 
         $newOrderCreated = $this->orderRepository->save($order);
