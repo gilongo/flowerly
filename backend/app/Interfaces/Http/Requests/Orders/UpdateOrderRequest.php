@@ -11,8 +11,8 @@ class UpdateOrderRequest extends FormRequest
         return [
             'description' => 'sometimes|required|string',
             'products' => 'sometimes|required|array',
-            'products.*.id' => 'sometimes|required|string',
-            'products.*.quantity' => 'sometimes|required|integer|min:0',
+            'products.*.id' => 'required|string',
+            'products.*.quantity' => 'required|integer|min:0',
         ];
 
     }

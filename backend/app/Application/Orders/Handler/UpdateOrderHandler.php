@@ -37,22 +37,26 @@ class UpdateOrderHandler
         }
 
         $ordersProducts = [];
-        foreach ($command->getProducts() as $productData) {
-            $product = $this->productRepository->findById(new ProductId($productData['id']));
-            if ($product === null) {
-                throw new \Exception("Product not found: " . $productData['id']);
-            }
 
-            if($productData['quantity'] > 0) {
-                $ordersProducts[] = new OrdersProducts(
-                    OrderId::generate(),
-                    $product,
-                    $productData['quantity']
-                );
+        if (count($command->getProducts()) > 0) {
+            foreach ($command->getProducts() as $productData) {
+                $product = $this->productRepository->findById(new ProductId($productData['id']));
+                if ($product === null) {
+                    throw new \Exception("Product not found: " . $productData['id']);
+                }
+    
+                if($productData['quantity'] > 0) {
+                    $ordersProducts[] = new OrdersProducts(
+                        OrderId::generate(),
+                        $product,
+                        $productData['quantity']
+                    );
+                }
+    
+                $order->updateProducts($product, $productData['quantity']);
             }
-
-            $order->updateProducts($product, $productData['quantity']);
         }
+        
 
         if($command->getDescription() !== null) {
             $order->setDescription(new OrderDescription($command->getDescription()));

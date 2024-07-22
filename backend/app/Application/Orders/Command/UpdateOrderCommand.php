@@ -8,7 +8,7 @@ class UpdateOrderCommand
     private $description;
     private $products;
 
-    public function __construct(string $id, string $description, array $products)
+    public function __construct(string $id, ?string $description, array $products = [])
     {
         $this->id = $id;
         $this->description = $description;
@@ -20,7 +20,7 @@ class UpdateOrderCommand
         return $this->id;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
