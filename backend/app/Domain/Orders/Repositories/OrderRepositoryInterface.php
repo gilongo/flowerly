@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 interface OrderRepositoryInterface
 {
     public function findById(OrderId $id): ?Order;
-    public function findAll(): Collection;
+    public function findAll(array $filters = []): Collection;
     public function save(Order $order): OrderId;
     public function delete(OrderId $id): void;
 }

@@ -43,7 +43,10 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = new GetAllOrdersQuery();
+            $description = $request->query('description');
+            $product_name = $request->query('product_name');
+
+            $query = new GetAllOrdersQuery($description, $product_name);
             $orders = $this->getAllOrdersHandler->handle($query);
 
             return response()->json(['data' => [

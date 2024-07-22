@@ -17,7 +17,15 @@ class GetAllOrdersHandler
 
     public function handle(GetAllOrdersQuery $query): array
     {
-        $orders = $this->orderRepository->findAll();
+        $filters = [];
+        if ($query->getDescription()) {
+            $filters['description'] = $query->getDescription();
+        }
+        if ($query->getProductName()) {
+            $filters['product_name'] = $query->getProductName();
+        }
+
+        $orders = $this->orderRepository->findAll($filters);
 
         $orderDTOs = $orders->map(function ($order) {
             return new OrderDTO(
@@ -39,5 +47,6 @@ class GetAllOrdersHandler
         });
 
         return $orderDTOs->toArray();
+
     }
 }

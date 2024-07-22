@@ -21,6 +21,7 @@ use App\Domain\Products\ValueObjects\ProductPrice;
 use App\Models\Order as EloquentOrder;
 use App\Models\Product as EloquentProduct;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 class EloquentOrderRepository implements OrderRepositoryInterface
 {
@@ -34,9 +35,21 @@ class EloquentOrderRepository implements OrderRepositoryInterface
         return $this->mapToDomain($eloquentOrder);
     }
 
-    public function findAll(): Collection
+    public function findAll(array $filters = []): Collection
     {
-        return EloquentOrder::with('products')->get()->map(function ($eloquentOrder) {
+        $query = EloquentOrder::with('products');
+
+        if (isset($filters['description'])) {
+            $query->where('description', 'like', '%' . $filters['description'] . '%');
+        }
+
+        if (isset($filters['product_name'])) {
+            $query->whereHas('products', function (Builder $query) use ($filters) {
+                $query->where('name', 'like', '%' . $filters['product_name'] . '%');
+            });
+        }
+
+        return $query->get()->map(function ($eloquentOrder) {
             return $this->mapToDomain($eloquentOrder);
         });
     }
