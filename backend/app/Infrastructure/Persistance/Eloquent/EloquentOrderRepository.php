@@ -7,8 +7,19 @@ use App\Domain\Orders\Repositories\OrderRepositoryInterface;
 use App\Domain\Orders\ValueObjects\OrderId;
 use App\Domain\Orders\ValueObjects\OrderDescription;
 use App\Domain\Orders\ValueObjects\OrderTotalPrice;
+use App\Domain\Orders\ValueObjects\OrderQuantity;
+
+use App\Domain\Orders\Entities\OrdersProducts;
+
+use App\Domain\Customers\ValueObjects\CustomerId;
+
+use App\Domain\Products\Entities\Product;
+use App\Domain\Products\ValueObjects\ProductId;
+use App\Domain\Products\ValueObjects\ProductName;
+use App\Domain\Products\ValueObjects\ProductPrice;
 
 use App\Models\Order as EloquentOrder;
+use App\Models\Product as EloquentProduct;
 use Illuminate\Support\Collection;
 
 class EloquentOrderRepository implements OrderRepositoryInterface
@@ -18,11 +29,11 @@ class EloquentOrderRepository implements OrderRepositoryInterface
         //
     }
 
-    public function findAll(): array
+    public function findAll(): Collection
     {
         return EloquentOrder::with('products')->get()->map(function ($eloquentOrder) {
             return $this->mapToDomain($eloquentOrder);
-        })->toArray();
+        });
     }
 
     public function save(Order $order): OrderId
@@ -34,7 +45,7 @@ class EloquentOrderRepository implements OrderRepositoryInterface
             $eloquentOrder->id = $order->getId()->getId();
         }
 
-        $eloquentOrder->customer_id = $order->getCustomer()->getId()->getId();
+        $eloquentOrder->customer_id = $order->getCustomerId()->getId();
         $eloquentOrder->description = $order->getDescription()->getDescription();
         $eloquentOrder->total_price = $order->getTotalPrice();
 
@@ -57,20 +68,23 @@ class EloquentOrderRepository implements OrderRepositoryInterface
 
     private function mapToDomain(EloquentOrder $eloquentOrder)
     {
-        $order = [
-            'id' => $eloquentOrder->id,
-            'customer_id' => $eloquentOrder->customer_id,
-            'description' => $eloquentOrder->description,
-            'total_price' => $eloquentOrder->total_price,
-            'products' => $eloquentOrder->products->map(function ($eloquentProduct) {
-                return [
-                    'product_id' => $eloquentProduct->id,
-                    'name' => $eloquentProduct->name,
-                    'price' => $eloquentProduct->price,
-                    'quantity' => $eloquentProduct->pivot->quantity,
-                ];
-            })->toArray(),
-        ];
+        $order = new Order(
+            new OrderId($eloquentOrder->id),
+            new CustomerId($eloquentOrder->customer_id),
+            new OrderDescription($eloquentOrder->description),
+        );
+
+        foreach ($eloquentOrder->products as $product) {
+            $order->addProduct(
+                new Product(
+                    new ProductId($product->id),
+                    new ProductName($product->name),
+                    new ProductPrice($product->price)
+                ),
+                $product->pivot->quantity
+            );
+        }
+
         return $order;
     }
 }

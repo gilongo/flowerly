@@ -2,32 +2,28 @@
 
 namespace App\Domain\Orders\Entities;
 
-use App\Domain\Customers\Entities\Customer;
+use App\Domain\Customers\ValueObjects\CustomerId;
 use App\Domain\Orders\ValueObjects\OrderId;
 use App\Domain\Orders\ValueObjects\OrderDescription;
+
+use App\Domain\Products\Entities\Product;
+
+use Illuminate\Support\Collection;
 
 class Order 
 {
     private $id;
-    private $customer;
+    private $customerId;
     private $description;
     private $products;
     private $totalPrice;
 
-    public function __construct(OrderId $id, Customer $customer, OrderDescription $description, array $products)
+    public function __construct(OrderId $id, CustomerId $customerId, OrderDescription $description)
     {
         $this->id = $id;
-        $this->customer = $customer;
+        $this->customerId = $customerId;
         $this->description = $description;
-        $this->products = $products;
-        $this->calculateTotalePrice();
-    }
-
-    private function calculateTotalePrice(): void 
-    {
-        $this->totalPrice = array_reduce($this->products, function($total, OrdersProducts $ordersProducts) {
-            return $total + ($ordersProducts->getQuantity() * $ordersProducts->getProduct()->getPrice()->getPrice());
-        }, 0);
+        $this->products = new Collection();
     }
 
     public function getId(): OrderId
@@ -35,9 +31,9 @@ class Order
         return $this->id;
     }
 
-    public function getCustomer(): Customer
+    public function getCustomerId(): CustomerId
     {
-        return $this->customer;
+        return $this->customerId;
     }
 
     public function getDescription()
@@ -45,7 +41,7 @@ class Order
         return $this->description;
     }
 
-    public function getProducts(): array
+    public function getProducts(): Collection
     {
         return $this->products;
     }
@@ -53,5 +49,29 @@ class Order
     public function getTotalPrice(): float
     {
         return $this->totalPrice;
+    }
+
+    public function calculateTotalPrice(): void
+    {
+        $total = 0;
+        foreach ($this->products as $orderProduct) {
+            $total += $orderProduct->getProduct()->getPrice()->getPrice() * $orderProduct->getQuantity();
+        }
+        $this->totalPrice = $total;
+    }
+
+    public function addProduct(Product $product, int $quantity): void
+    {
+        $existingOrderProduct = $this->products->first(function(OrdersProducts $ordersProducts) use ($product) {
+            return $ordersProducts->getProduct()->getId()->getId() === $product->getId()->getId();
+        });
+
+        if($existingOrderProduct) {
+            $existingOrderProduct->setQuantity($existingOrderProduct->getQuantity() + $quantity);
+        } else {
+            $this->products->push(new OrdersProducts($this->id, $product, $quantity));
+        }
+
+        $this->calculateTotalPrice();
     }
 }

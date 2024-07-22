@@ -37,6 +37,12 @@ class CreateOrderHandler
             throw new \Exception('Customer not found');
         }
 
+        $order = new Order(
+            OrderId::generate(),
+            $customer->getId(),
+            new OrderDescription($command->getDescription()),
+        );
+
         $ordersProducts = [];
         foreach ($command->getProducts() as $productData) {
             $product = $this->productRepository->findById(new ProductId($productData['id']));
@@ -49,25 +55,30 @@ class CreateOrderHandler
                 $product,
                 $productData['quantity']
             );
+
+            $order->addProduct($product, $productData['quantity']);
         }
 
-        $order = new Order(
-            OrderId::generate(),
-            $customer,
-            new OrderDescription($command->getDescription()),
-            $ordersProducts
-        );
+        $newOrderCreated = $this->orderRepository->save($order);
+
+        if ($newOrderCreated === null) {
+            throw new \Exception('Order not created');
+        }
 
         $orderDTO = new OrderDTO(
-            $this->orderRepository->save($order),
-            $order->getCustomer()->getId()->getId(),
+            $newOrderCreated->getId(),
+            $order->getCustomerId()->getId(),
             $order->getDescription()->getDescription(),
-            array_map(function (OrdersProducts $ordersProducts) {
+            $order->getProducts()->map(function ($orderProduct) {
                 return [
-                    'product' => $ordersProducts->getProduct()->getId()->getId(),
-                    'quantity' => $ordersProducts->getQuantity(),
+                    'product' => [
+                        'id' => $orderProduct->getProduct()->getId()->getId(),
+                        'name' => $orderProduct->getProduct()->getName()->getName(),
+                        'price' => $orderProduct->getProduct()->getPrice()->getPrice(),
+                    ],
+                    'quantity' => $orderProduct->getQuantity(),
                 ];
-            }, $order->getProducts()),
+            }),
             $order->getTotalPrice()
         );
 

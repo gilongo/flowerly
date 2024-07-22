@@ -2,6 +2,7 @@
 
 namespace App\Application\Orders\DTO;
 
+use Illuminate\Support\Collection;
 use JsonSerializable;
 
 class OrderDTO implements JsonSerializable
@@ -12,7 +13,7 @@ class OrderDTO implements JsonSerializable
     private $products;
     private $totalPrice;
 
-    public function __construct(string $id, string $customerId, string $description, array $products, float $totalPrice)
+    public function __construct(string $id, string $customerId, string $description, Collection $products, float $totalPrice)
     {
         $this->id = $id;
         $this->customerId = $customerId;
@@ -36,7 +37,7 @@ class OrderDTO implements JsonSerializable
         return $this->description;
     }
 
-    public function getProducts(): array
+    public function getProducts(): Collection
     {
         return $this->products;
     }

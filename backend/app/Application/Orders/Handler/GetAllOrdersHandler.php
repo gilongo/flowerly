@@ -17,6 +17,27 @@ class GetAllOrdersHandler
 
     public function handle(GetAllOrdersQuery $query): array
     {
-        return $this->orderRepository->findAll();
+        $orders = $this->orderRepository->findAll();
+
+        $orderDTOs = $orders->map(function ($order) {
+            return new OrderDTO(
+                $order->getId()->getId(),
+                $order->getCustomerId()->getId(),
+                $order->getDescription()->getDescription(),
+                $order->getProducts()->map(function ($orderProduct) {
+                    return [
+                        'product' => [
+                            'id' => $orderProduct->getProduct()->getId()->getId(),
+                            'name' => $orderProduct->getProduct()->getName()->getName(),
+                            'price' => $orderProduct->getProduct()->getPrice()->getPrice(),
+                        ],
+                        'quantity' => $orderProduct->getQuantity(),
+                    ];
+                }),
+                $order->getTotalPrice()
+            );
+        });
+
+        return $orderDTOs->toArray();
     }
 }
