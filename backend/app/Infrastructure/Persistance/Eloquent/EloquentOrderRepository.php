@@ -26,7 +26,12 @@ class EloquentOrderRepository implements OrderRepositoryInterface
 {
     public function findById(OrderId $id): ?Order
     {
-        //
+        $eloquentOrder = EloquentOrder::with('products')->find($id->getId());
+        if ($eloquentOrder === null) {
+            return null;
+        }
+
+        return $this->mapToDomain($eloquentOrder);
     }
 
     public function findAll(): Collection
