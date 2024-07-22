@@ -69,5 +69,14 @@ class CustomerController extends Controller
         $this->createCustomerHandler->handle($command);
         return response()->json(['message' => 'Customer created successfully.']);
     }
+
+    public function update()
+    {
+        // TODO: implement update
+    }
     
+    public function delete()
+    {
+        // TODO: implement delete
+    }
 }

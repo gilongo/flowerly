@@ -5,39 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Str;
 
-class Product extends Model
+class Order extends Model
 {
     use HasFactory;
 
-    protected $table = 'products';
+    protected $table = 'orders';
     protected $keyType = 'string';
     public $incrementing = false;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name',
-        'price',
+        'customer_id',
+        'description',
+        'total_price',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
-        'price' => 'decimal:2',
-        'stock_quantity' => 'integer',
+        'total_price' => 'decimal:2',
     ];
 
     public $timestamps = true;
 
-    // Automatically generate UUIDs
     protected static function boot()
     {
         parent::boot();
@@ -49,10 +37,15 @@ class Product extends Model
         });
     }
 
-    public function orders(): BelongsToMany
+    public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class, 'orders_products')
+        return $this->belongsToMany(Product::class, 'orders_products')
             ->withPivot('quantity')
             ->withTimestamps();
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }
 }

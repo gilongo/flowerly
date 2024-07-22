@@ -1,0 +1,14 @@
+<?php 
+
+namespace App\Domain\Orders\Repositories;
+
+use App\Domain\Orders\Entities\Order;
+use App\Domain\Orders\ValueObjects\OrderId;
+
+interface OrderRepositoryInterface
+{
+    public function findById(OrderId $id): ?Order;
+    public function findAll(): array;
+    public function save(Order $order): OrderId;
+    public function delete(OrderId $id): void;
+}
