@@ -7,7 +7,9 @@ use App\Domain\Orders\Repositories\OrderRepositoryInterface;
 use App\Domain\Orders\ValueObjects\OrderId;
 use App\Domain\Orders\ValueObjects\OrderDescription;
 use App\Domain\Orders\ValueObjects\OrderTotalPrice;
+
 use App\Models\Order as EloquentOrder;
+use Illuminate\Support\Collection;
 
 class EloquentOrderRepository implements OrderRepositoryInterface
 {
@@ -18,7 +20,9 @@ class EloquentOrderRepository implements OrderRepositoryInterface
 
     public function findAll(): array
     {
-        //
+        return EloquentOrder::with('products')->get()->map(function ($eloquentOrder) {
+            return $this->mapToDomain($eloquentOrder);
+        })->toArray();
     }
 
     public function save(Order $order): OrderId
@@ -49,5 +53,24 @@ class EloquentOrderRepository implements OrderRepositoryInterface
     public function delete(OrderId $id): void
     {
         //
+    }
+
+    private function mapToDomain(EloquentOrder $eloquentOrder)
+    {
+        $order = [
+            'id' => $eloquentOrder->id,
+            'customer_id' => $eloquentOrder->customer_id,
+            'description' => $eloquentOrder->description,
+            'total_price' => $eloquentOrder->total_price,
+            'products' => $eloquentOrder->products->map(function ($eloquentProduct) {
+                return [
+                    'product_id' => $eloquentProduct->id,
+                    'name' => $eloquentProduct->name,
+                    'price' => $eloquentProduct->price,
+                    'quantity' => $eloquentProduct->pivot->quantity,
+                ];
+            })->toArray(),
+        ];
+        return $order;
     }
 }
