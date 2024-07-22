@@ -17,13 +17,15 @@ class Order
     private $description;
     private $products;
     private $totalPrice;
+    private $createdAt;
 
-    public function __construct(OrderId $id, CustomerId $customerId, OrderDescription $description)
+    public function __construct(OrderId $id, CustomerId $customerId, OrderDescription $description, \DateTime $createdAt = null)
     {
         $this->id = $id;
         $this->customerId = $customerId;
         $this->description = $description;
         $this->products = new Collection();
+        $this->createdAt = $createdAt ?? new \DateTime();
     }
 
     public function getId(): OrderId
@@ -44,6 +46,11 @@ class Order
     public function getProducts(): Collection
     {
         return $this->products;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt->format('Y-m-d H:i:s');
     }
 
     public function getTotalPrice(): float

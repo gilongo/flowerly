@@ -22,6 +22,7 @@ use App\Models\Order as EloquentOrder;
 use App\Models\Product as EloquentProduct;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
+use DateTime;
 
 class EloquentOrderRepository implements OrderRepositoryInterface
 {
@@ -47,6 +48,14 @@ class EloquentOrderRepository implements OrderRepositoryInterface
             $query->whereHas('products', function (Builder $query) use ($filters) {
                 $query->where('name', 'like', '%' . $filters['product_name'] . '%');
             });
+        }
+
+        if (isset($filters['date_from'])) {
+            $query->where('created_at', '>=', $filters['date_from']);
+        }
+
+        if (isset($filters['date_to'])) {
+            $query->where('created_at', '<=', $filters['date_to']);
         }
 
         return $query->get()->map(function ($eloquentOrder) {
@@ -90,6 +99,7 @@ class EloquentOrderRepository implements OrderRepositoryInterface
             new OrderId($eloquentOrder->id),
             new CustomerId($eloquentOrder->customer_id),
             new OrderDescription($eloquentOrder->description),
+            DateTime::createFromFormat('Y-m-d H:i:s', $eloquentOrder->created_at),
         );
 
         foreach ($eloquentOrder->products as $product) {

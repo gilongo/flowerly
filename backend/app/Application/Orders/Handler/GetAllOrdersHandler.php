@@ -6,6 +6,8 @@ use App\Application\Orders\Query\GetAllOrdersQuery;
 use App\Application\Orders\DTO\OrderDTO;
 use App\Domain\Orders\Repositories\OrderRepositoryInterface;
 
+use DateTime;
+
 class GetAllOrdersHandler
 {
     private $orderRepository;
@@ -23,6 +25,12 @@ class GetAllOrdersHandler
         }
         if ($query->getProductName()) {
             $filters['product_name'] = $query->getProductName();
+        }
+        if($query->getDateFrom()) {
+            $filters['date_from'] = $query->getDateFrom();
+        }
+        if($query->getDateTo()) {
+            $filters['date_to'] = $query->getDateTo();
         }
 
         $orders = $this->orderRepository->findAll($filters);
@@ -42,7 +50,8 @@ class GetAllOrdersHandler
                         'quantity' => $orderProduct->getQuantity(),
                     ];
                 }),
-                $order->getTotalPrice()
+                $order->getTotalPrice(),
+                $order->getCreatedAt()
             );
         });
 

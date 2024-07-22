@@ -45,8 +45,10 @@ class OrderController extends Controller
         try {
             $description = $request->query('description');
             $product_name = $request->query('product_name');
+            $date_from = urldecode($request->query('date_from'));
+            $date_to = urldecode($request->query('date_to'));
 
-            $query = new GetAllOrdersQuery($description, $product_name);
+            $query = new GetAllOrdersQuery($description, $product_name, $date_from, $date_to);
             $orders = $this->getAllOrdersHandler->handle($query);
 
             return response()->json(['data' => [
