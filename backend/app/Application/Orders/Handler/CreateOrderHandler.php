@@ -79,7 +79,8 @@ class CreateOrderHandler
                     'quantity' => $orderProduct->getQuantity(),
                 ];
             }),
-            $order->getTotalPrice()
+            $order->getTotalPrice(),
+            $order->getCreatedAt()
         );
 
         return $orderDTO;

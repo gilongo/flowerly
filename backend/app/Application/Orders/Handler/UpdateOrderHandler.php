@@ -80,7 +80,8 @@ class UpdateOrderHandler
                         'quantity' => $orderProduct->getQuantity(),
                     ];
                 }),
-                $order->getTotalPrice()
+                $order->getTotalPrice(),
+                $order->getCreatedAt()
             );   
         } else {
             $this->orderRepository->delete(new OrderId($orderUpdated->getId()));
