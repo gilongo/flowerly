@@ -1,3 +1,29 @@
-<h1>
-    TEST
-</h1>
+<clr-input-container>
+    <label>Search</label>
+    <input type="text" clrInput/>
+</clr-input-container>
+
+<clr-date-container>
+    <label>Date From</label>
+    <input type="date" clrDate/>
+</clr-date-container>
+
+<clr-date-container>
+    <label>Date To</label>
+    <input type="date" clrDate/>
+</clr-date-container>
+
+<clr-datagrid>
+    <clr-dg-column>ID</clr-dg-column>
+    <clr-dg-column>Customer Name</clr-dg-column>
+    <clr-dg-column>Date</clr-dg-column>
+    <clr-dg-column>Total Amount</clr-dg-column>
+
+    <clr-dg-row *ngFor="let order of orders">
+        <clr-dg-cell>{{ order.id }}</clr-dg-cell>
+        <clr-dg-cell>{{ order.customerId }}</clr-dg-cell>
+        <clr-dg-cell>{{ order.description }}</clr-dg-cell>
+        <clr-dg-cell>{{ order.totalPrice | currency: 'EUR' }}</clr-dg-cell>
+    </clr-dg-row>
+    
+</clr-datagrid>
