@@ -1,6 +1,11 @@
-.header, .footer {
+  .header {
     background-color: #f8f9fa;
-    padding: 1rem;
+    min-height: calc(4rem);
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
   }
   
   .container {
@@ -8,21 +13,10 @@
     min-height: calc(100vh - 4rem);
   }
   
-  .sidebar {
-    width: 250px;
-    background-color: #f1f1f1;
-    padding: 1rem;
-  }
   
   .main-content {
     flex: 1;
     padding: 1rem;
-  }
-  
-  .footer {
-    background-color: #f8f9fa;
-    padding: 1rem;
-    text-align: center;
   }
   
   /* Responsive Styles */
