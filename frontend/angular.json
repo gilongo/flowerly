@@ -24,15 +24,10 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@clr/icons/clr-icons.min.css",
-              "./node_modules/@clr/ui/clr-ui.min.css",
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.css"
             ],
-            "scripts": [
-              "./node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js",
-              "./node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js",
-              "./node_modules/@clr/icons/clr-icons.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -89,6 +84,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.css"
             ],
             "scripts": []

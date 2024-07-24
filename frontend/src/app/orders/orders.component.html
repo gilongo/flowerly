@@ -1,29 +1,41 @@
-<clr-input-container>
-    <label>Search</label>
-    <input type="text" clrInput/>
-</clr-input-container>
+<table mat-table [dataSource]="dataSource">
 
-<clr-date-container>
-    <label>Date From</label>
-    <input type="date" clrDate/>
-</clr-date-container>
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let order"> {{order.id}} </td>
+    </ng-container>
 
-<clr-date-container>
-    <label>Date To</label>
-    <input type="date" clrDate/>
-</clr-date-container>
+    <ng-container matColumnDef="customerId">
+        <th mat-header-cell *matHeaderCellDef> Customer ID </th>
+        <td mat-cell *matCellDef="let order"> {{order.customerId}} </td>
+    </ng-container>
 
-<clr-datagrid>
-    <clr-dg-column>ID</clr-dg-column>
-    <clr-dg-column>Customer Name</clr-dg-column>
-    <clr-dg-column>Date</clr-dg-column>
-    <clr-dg-column>Total Amount</clr-dg-column>
+    <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let order"> {{order.description}} </td>
+    </ng-container>
 
-    <clr-dg-row *ngFor="let order of orders">
-        <clr-dg-cell>{{ order.id }}</clr-dg-cell>
-        <clr-dg-cell>{{ order.customerId }}</clr-dg-cell>
-        <clr-dg-cell>{{ order.description }}</clr-dg-cell>
-        <clr-dg-cell>{{ order.totalPrice | currency: 'EUR' }}</clr-dg-cell>
-    </clr-dg-row>
-    
-</clr-datagrid>
+    <ng-container matColumnDef="totalPrice">
+        <th mat-header-cell *matHeaderCellDef> Total € </th>
+        <td mat-cell *matCellDef="let order"> {{order.totalPrice | customCurrency: '€'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef> Order Created at </th>
+        <td mat-cell *matCellDef="let order"> {{order.createdAt | date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Edit / Delete</th>
+        <td mat-cell *matCellDef="let row">
+        <app-cliccable-icon iconType="edit"></app-cliccable-icon>
+          <app-cliccable-icon iconType="delete"></app-cliccable-icon>
+        </td>
+    </ng-container>
+
+    <!-- Header Row -->
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <!-- Data Rows -->
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
