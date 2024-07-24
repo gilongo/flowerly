@@ -11,8 +11,12 @@ import { MatIconModule } from '@angular/material/icon';
 export class CliccableIconComponent {
 
   @Input() iconType: string = '';
+  @Input() data: any;
+  @Input() action: (data: any, event: Event) => void = () => {};
 
-  onIconClick() {
-    alert('Cliccato');
+  handleClick(event: Event) {
+    if (this.action) {
+      this.action(this.data, event);
+    }
   }
 }

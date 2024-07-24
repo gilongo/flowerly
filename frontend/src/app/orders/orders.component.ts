@@ -32,5 +32,8 @@ export class OrdersComponent implements OnInit {
     })
   }
 
+  editOrder(data: any, event: Event) {
+    console.log(data, event);
+  }
 
 }
