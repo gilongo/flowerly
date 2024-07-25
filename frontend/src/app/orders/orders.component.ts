@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -18,6 +18,8 @@ import { SpinnerComponent } from "../utils/spinner.component";
 import { CustomerService } from '../customer.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CustomerDetailComponent } from '../customer-detail/customer-detail.component';
+import { OrderDeleteWarnComponent } from '../order-delete-warn/order-delete-warn.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-orders',
@@ -41,7 +43,9 @@ export class OrdersComponent implements OnInit {
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  constructor(private ordersService: OrdersService, private customerService: CustomerService, public dialog: MatDialog) {
+  ordersService = inject(OrdersService);
+
+  constructor( private customerService: CustomerService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
     this.dataSource = new MatTableDataSource<Order>();
   }
 
@@ -94,12 +98,32 @@ export class OrdersComponent implements OnInit {
   }
 
   customerDetail(id: any, event: Event) {
-
     this.customerService.getCustomerById(id).subscribe(customer => {
       const dialogRef = this.dialog.open(CustomerDetailComponent, {
         data: customer
       });
     })
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+    });
+  }
+
+
+  deleteOrder(order: Order) {
+    const dialogRef = this.dialog.open(OrderDeleteWarnComponent, {
+      data: order
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.orders = this.orders.filter(o => o.id !== order.id);
+        this.dataSource.data = this.orders;
+        this.openSnackBar('Order deleted', 'close');
+      }
+    });
   }
 
   editOrder(data: any, event: Event) {
