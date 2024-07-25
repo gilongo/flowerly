@@ -1,3 +1,8 @@
+  <div class="title">
+    <h1>Order List</h1>
+    <button mat-raised-button color="primary" style="float: right" [routerLink]="['/create-order']">Create new Order</button>
+  </div>
+  
   <mat-form-field>
     <mat-label>Description</mat-label>
     <input matInput [(ngModel)]="searchText" (input)="applyFilter($event)" [readonly]="orders.length === 0">
@@ -21,8 +26,6 @@
 
   <button mat-raised-button (click)="applyDateFilter()" [disabled]="orders.length === 0">Apply Date Filter</button>
   <button mat-raised-button (click)="clearFilters()">Clear Filters</button>
-
-  <button mat-raised-button color="primary" style="float: right" [routerLink]="['/create-order']">Create new Order</button>
 
   <div style="position: relative; right: -40vw" *ngIf="orders.length === 0; else ordersLoaded">
     <spinner/>

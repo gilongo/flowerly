@@ -2,8 +2,19 @@
     margin: 0 15px;
 }
 
-.create-order-button {
-    float: right;
+.title {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.title > h1 {
+  margin: 0 15px;
+  width: 80%;
+}
+
+.title > button {
+  margin-left: auto;
+  order: 2;
 }
 
 .mat-mdc-table {
