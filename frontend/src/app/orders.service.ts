@@ -30,6 +30,17 @@ export interface OrdersData {
   data: Orders
 }
 
+export interface ProductUpdate {
+  id: string;
+  quantity: number;
+}
+
+export interface OrderUpdateData {
+  id: string;
+  description: string;
+  products: ProductUpdate[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -42,6 +53,10 @@ export class OrdersService {
 
   getOrders(): Observable<OrdersData> {
     return this.http.get<OrdersData>(this.ordersUrl);
+  }
+
+  updateOrder(id: string, order: OrderUpdateData): Observable<any> {
+    return this.http.patch<void>(this.ordersUrl + `/${id}`, order);
   }
 
   deleteOrder(id: string): Observable<any> {

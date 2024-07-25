@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="main">
+        <h1 mat-dialog-title>Order detail</h1>
+    <div mat-dialog-content>
+    <p><strong>ID:</strong> {{data.id}}</p>
+    <p><strong>Customer ID:</strong> {{data.customerId}}</p>
+    <p><strong>Description:</strong></p>
+    <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput [(ngModel)]="data.description"></textarea>
+      </mat-form-field>
+    <p><strong>Total price:</strong> {{data.totalPrice | customCurrency: '€'}}</p>
+    <div><strong>Products:</strong>
+        <ul><li *ngFor="let product of data.products">{{product.product.name}} - {{product.product.price | customCurrency: '€'}} x {{product.quantity}}</li></ul>
+    </div>
+    <p><strong>Created at:</strong> {{data.createdAt | date}}</p>
+    </div>
+    <div mat-dialog-actions style="float: right;">
+        <button mat-raised-button [disabled]="loading" (click)="onClose()" >Cancel</button>
+        <button *ngIf="!loading; else spinner" mat-raised-button color="primary" [disabled]="loading" (click)="confirmUpdate(); loading = true">Update</button>
+
+        <ng-template #spinner>
+            <mat-spinner diameter="20"></mat-spinner>
+        </ng-template>
+    </div>
+    </div>
+</div>

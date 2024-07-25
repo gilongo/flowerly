@@ -1,4 +1,4 @@
-import { Component, inject, model } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { OrdersService, Order } from '../orders.service';
 import { CustomCurrencyPipe } from '../utils/custom-currency.pipe';
 import { DatePipe } from '@angular/common';

@@ -19,6 +19,7 @@ import { CustomerService } from '../customer.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CustomerDetailComponent } from '../customer-detail/customer-detail.component';
 import { OrderDeleteWarnComponent } from '../order-delete-warn/order-delete-warn.component';
+import { OrderEditComponent } from '../order-edit/order-edit.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
@@ -126,8 +127,23 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  editOrder(data: any, event: Event) {
-    console.log(data, event);
+  editOrder(order: Order) {
+    const dialogRef = this.dialog.open(OrderEditComponent, {
+      data: order
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.updated){
+        this.orders = this.orders.map(o => {
+          if (o.id === result.data.id) {
+            return result.data
+          }
+          return o
+        })
+        this.dataSource.data = this.orders;
+        this.openSnackBar('Order updated', 'close');
+      }
+    });
   }
 
 }
