@@ -6,6 +6,11 @@
   <mat-form-field>
     <mat-label>Description</mat-label>
     <input matInput [(ngModel)]="searchText" (input)="applyFilter($event)" [readonly]="orders.length === 0">
+    @if (searchText) {
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="searchText=''; applyFilter($event)">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
   </mat-form-field>
 
   <mat-form-field disabled>

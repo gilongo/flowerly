@@ -5,7 +5,6 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { OrdersService, Order } from '../orders.service';
 import { CustomCurrencyPipe } from '../utils/custom-currency.pipe';
 import { MatIconModule } from '@angular/material/icon';
-import { CliccableIconComponent } from '../cliccable-icon/cliccable-icon.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -25,7 +24,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, CustomCurrencyPipe, MatIconModule, CliccableIconComponent, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule, MatButtonModule, RouterLink, SpinnerComponent, MatDialogModule, CustomerDetailComponent],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, CustomCurrencyPipe, MatIconModule, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule, MatButtonModule, RouterLink, SpinnerComponent, MatDialogModule, CustomerDetailComponent],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
   schemas: [],
@@ -63,7 +62,7 @@ export class OrdersComponent implements OnInit {
   }
 
   applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
+    const filterValue = this.searchText;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
