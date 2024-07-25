@@ -17,8 +17,12 @@
     <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
     <mat-datepicker #endPicker></mat-datepicker>
   </mat-form-field>
-  
-<button mat-raised-button (click)="applyDateFilter()">Apply Date Filter</button>
+
+
+  <button mat-raised-button (click)="applyDateFilter()">Apply Date Filter</button>
+  <button mat-raised-button (click)="clearFilters()">Clear Filters</button>
+
+<button mat-raised-button style="float: right">Create new Order</button>
 
 <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="id">

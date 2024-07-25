@@ -12,11 +12,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, CustomCurrencyPipe, MatIconModule, CliccableIconComponent, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, CustomCurrencyPipe, MatIconModule, CliccableIconComponent, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule, MatButtonModule],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
   schemas: [],
@@ -60,14 +61,31 @@ export class OrdersComponent implements OnInit {
     const start = this.startDate.value;
     const end = this.endDate.value;
 
-    if (start && end) {
+    if (start) {
       this.dataSource.data = this.orders.filter(order => {
         const orderDate = new Date(order.createdAt);
-        return orderDate >= start && orderDate <= end;
+        return orderDate >= start;
       });
-    } else {
-      this.dataSource.data = this.orders;
     }
+
+    if (end) {
+      this.dataSource.data = this.orders.filter(order => {
+        const orderDate = new Date(order.createdAt);
+        return orderDate <= end;
+      });
+    }
+
+    if (!start && !end) {
+        this.dataSource.data = this.orders;
+    }
+  }
+
+  clearFilters(): void {
+    this.searchText = '';
+    this.dataSource.filter = '';
+    this.dataSource.data = this.orders;
+    this.startDate.reset();
+    this.endDate.reset();
   }
 
   editOrder(data: any, event: Event) {

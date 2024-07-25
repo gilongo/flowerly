@@ -5,3 +5,23 @@
 .create-order-button {
     float: right;
 }
+
+.mat-mdc-table {
+  width: 100%;
+}
+
+.mat-mdc-cell {
+  max-width: 15vw;
+}
+
+.button-column {
+  display: table-column;
+}
+
+table {
+  margin-top: 1vw;
+}
+
+button {
+  margin: 0 5px;
+}
