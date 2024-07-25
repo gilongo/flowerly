@@ -1,1 +1,17 @@
 <button mat-raised-button color="primary" [routerLink]="['/orders']">Back to Orders</button>
+
+<div class="container">
+    <h1>Create new Order</h1>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Customer ID</mat-label>
+        <input matInput [(ngModel)]="customerId">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <input matInput [(ngModel)]="description">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary">Create Order</button>
+</div>
