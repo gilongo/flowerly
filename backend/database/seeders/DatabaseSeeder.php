@@ -26,8 +26,13 @@ class DatabaseSeeder extends Seeder
 
         Product::factory(10)->create();
 
-        \App\Models\Customer::factory(5)->create()->each(function ($customer) {
-            \App\Models\Order::factory(rand(1, 3))->create(['customer_id' => $customer->id])->each(function ($order) {
+        \App\Models\Customer::factory(10)->create()->each(function ($customer) {
+            \App\Models\Order::factory(rand(1, 5))->create(
+                [
+                    'customer_id' => $customer->id,
+                    'created_at' => fake()->unique()->dateTimeBetween('-30 days', 'now', 'GMT+1')
+                ]
+            )->each(function ($order) {
                 $products = \App\Models\Product::inRandomOrder()->take(rand(1, 3))->get();
                 $totalPrice = 0;
 
