@@ -22,7 +22,7 @@
   <button mat-raised-button (click)="applyDateFilter()">Apply Date Filter</button>
   <button mat-raised-button (click)="clearFilters()">Clear Filters</button>
 
-<button mat-raised-button style="float: right">Create new Order</button>
+<button mat-raised-button style="float: right" [routerLink]="['/create-order']">Create new Order</button>
 
 <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="id">

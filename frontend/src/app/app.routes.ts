@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { OrdersComponent } from './orders/orders.component';
-import { EditOrderComponent } from './edit-order/edit-order.component';
+import {CreateOrderComponent} from "./create-order/create-order.component";
 
 export const routes: Routes = [
     { path: 'orders', component: OrdersComponent },
     { path: '', redirectTo: 'orders', pathMatch: 'full' },
-    { path: 'orders/edit', component: EditOrderComponent },
+    { path: 'create-order', component: CreateOrderComponent },
 ];
