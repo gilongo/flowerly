@@ -20,40 +20,44 @@ After cloning the repository, follow these steps:
 
 ## Application
 
-### Frontend 
+### Frontend
+
 The frontend was creafted with Angular 17 (v17.3.1) and Material UI. <br>
 The application is available at `http://localhost:4200`.
 
 ### Backend
+
 The backend was creafted with PHP Laravel 11 (PHP 8.3) with a PostgreSQL 15 as relational database.<br>
 The application is available at `http://localhost:9000` (web routes are not available, api only).
 
 ## Features (WIP)
 
 #### Backend
+
 1. Customers
-    - [x] Get All
-    - [x] Get by ID
-    - [x] Create
-    - [ ] Update
-    - [ ] Delete
+   - [x] Get All
+   - [x] Get by ID
+   - [x] Create
+   - [ ] Update
+   - [ ] Delete
 2. Orders
-    - [x] Get all
-    - [x] Get by ID
-    - [x] Create
-    - [x] Update
-    - [x] Delete
+   - [x] Get all
+   - [x] Get by ID
+   - [x] Create
+   - [x] Update
+   - [x] Delete
 3. Products
-    - [x] Get All
-    - [x] Get by ID
-    - [x] Create
-    - [x] Update
-    - [x] Delete
+   - [x] Get All
+   - [x] Get by ID
+   - [x] Create
+   - [x] Update
+   - [x] Delete
 
 #### Frontend
+
 - [x] Order list
-    - [x] Filter by Date
-    - [x] Filter by Description
-- [ ] Create Order
-- [ ] Delete Order
-- [ ] Edit Order
+  - [x] Filter by Date
+  - [x] Filter by Description
+- [-] Create Order
+- [x] Delete Order
+- [-] Edit Order

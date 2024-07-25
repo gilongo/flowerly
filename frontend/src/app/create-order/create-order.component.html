@@ -4,8 +4,10 @@
     <h1>Create new Order</h1>
 
     <mat-form-field appearance="fill">
-        <mat-label>Customer ID</mat-label>
-        <input matInput [(ngModel)]="customerId">
+        <mat-label>Customer</mat-label>
+        <mat-select [(ngModel)]="selectedCustomer">
+            <mat-option *ngFor="let customer of customers" [value]="customer">{{customer.firstName + ' ' + customer.lastName}}</mat-option>
+        </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
