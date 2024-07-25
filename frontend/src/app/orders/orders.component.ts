@@ -14,11 +14,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink} from '@angular/router';
+import { SpinnerComponent } from "../utils/spinner.component";
 
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, CustomCurrencyPipe, MatIconModule, CliccableIconComponent, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule, MatButtonModule, RouterLink],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, CustomCurrencyPipe, MatIconModule, CliccableIconComponent, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule, MatButtonModule, RouterLink, SpinnerComponent],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
   schemas: [],
@@ -41,7 +42,7 @@ export class OrdersComponent implements OnInit {
     this.dataSource = new MatTableDataSource<Order>();
   }
 
-  displayedColumns: string[] = ['id', 'customerId', 'description', 'totalPrice', 'createdAt', 'actions'];
+  displayedColumns: string[] = ['id', 'customerId', 'description', 'totalPrice', 'createdAt', 'edit', 'delete'];
 
   ngOnInit(): void {
     this.ordersService.getOrders().subscribe(orders => {
