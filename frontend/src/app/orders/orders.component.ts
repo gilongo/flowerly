@@ -15,11 +15,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink} from '@angular/router';
 import { SpinnerComponent } from "../utils/spinner.component";
+import { CustomerService } from '../customer.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CustomerDetailComponent } from '../customer-detail/customer-detail.component';
 
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, CustomCurrencyPipe, MatIconModule, CliccableIconComponent, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule, MatButtonModule, RouterLink, SpinnerComponent],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, CustomCurrencyPipe, MatIconModule, CliccableIconComponent, MatFormFieldModule, MatInputModule, FormsModule, MatDatepickerModule, MatNativeDateModule, ReactiveFormsModule, MatButtonModule, RouterLink, SpinnerComponent, MatDialogModule, CustomerDetailComponent],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css'],
   schemas: [],
@@ -38,7 +41,7 @@ export class OrdersComponent implements OnInit {
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  constructor(private ordersService: OrdersService) {
+  constructor(private ordersService: OrdersService, private customerService: CustomerService, public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource<Order>();
   }
 
@@ -88,6 +91,15 @@ export class OrdersComponent implements OnInit {
     this.dataSource.data = this.orders;
     this.startDate.reset();
     this.endDate.reset();
+  }
+
+  customerDetail(id: any, event: Event) {
+
+    this.customerService.getCustomerById(id).subscribe(customer => {
+      const dialogRef = this.dialog.open(CustomerDetailComponent, {
+        data: customer
+      });
+    })
   }
 
   editOrder(data: any, event: Event) {

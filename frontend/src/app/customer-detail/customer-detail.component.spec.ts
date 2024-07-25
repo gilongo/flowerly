@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CliccableIconComponent } from './cliccable-icon.component';
+import { CustomerDetailComponent } from './customer-detail.component';
 
-describe('CliccableIconComponent', () => {
-  let component: CliccableIconComponent;
-  let fixture: ComponentFixture<CliccableIconComponent>;
+describe('CustomerDetailComponent', () => {
+  let component: CustomerDetailComponent;
+  let fixture: ComponentFixture<CustomerDetailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CliccableIconComponent]
+      imports: [CustomerDetailComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CliccableIconComponent);
+    fixture = TestBed.createComponent(CustomerDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
