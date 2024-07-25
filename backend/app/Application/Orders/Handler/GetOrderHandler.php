@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Application\Orders\Handler;
 
@@ -21,7 +21,7 @@ class GetOrderHandler
 
         if ($order === null) {
             throw new \Exception('Order not found');
-        }   
+        }
 
         return new OrderDTO(
             $order->getId()->getId(),
@@ -37,7 +37,8 @@ class GetOrderHandler
                     'quantity' => $orderProduct->getQuantity(),
                 ];
             }),
-            $order->getTotalPrice()
+            $order->getTotalPrice(),
+            $order->getCreatedAt()
         );
     }
 }
