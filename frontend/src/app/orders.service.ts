@@ -36,7 +36,7 @@ export interface ProductUpdate {
 }
 
 export interface OrderUpdateData {
-  id: string;
+  customer_id: string;
   description: string;
   products: ProductUpdate[];
 }
@@ -53,6 +53,10 @@ export class OrdersService {
 
   getOrders(): Observable<OrdersData> {
     return this.http.get<OrdersData>(this.ordersUrl);
+  }
+
+  createOrder(order: OrderUpdateData): Observable<Order> {
+    return this.http.post<Order>(this.ordersUrl, order);
   }
 
   updateOrder(id: string, order: OrderUpdateData): Observable<any> {

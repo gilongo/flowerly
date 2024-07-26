@@ -25,19 +25,17 @@ export class OrderEditComponent {
   constructor(private ordersService: OrdersService, public dialogRef: MatDialogRef<OrderEditComponent>) {}
 
   confirmUpdate(): void {
-    console.log(this.data);
     let productsUpdate = this.data.products.map((products) => {
       return { id: products.product.id, quantity: products.quantity } as ProductUpdate
     })
 
     let orderUpdate: OrderUpdateData = {
-      id: this.data.id,
+      customer_id: this.data.customerId,
       description: this.data.description,
       products: productsUpdate
     }
 
     this.ordersService.updateOrder(this.data.id, orderUpdate).subscribe((result) =>{
-      console.log('result',result);
       this.dialogRef.close({ updated: true, data: this.data});
     });
   }

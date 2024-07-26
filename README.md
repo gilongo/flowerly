@@ -58,6 +58,6 @@ The application is available at `http://localhost:9000` (web routes are not avai
 - [x] Order list
   - [x] Filter by Date
   - [x] Filter by Description
-- [-] Create Order
+- [x] Create Order
 - [x] Delete Order
 - [-] Edit Order

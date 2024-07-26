@@ -41,3 +41,8 @@ a {
   cursor: pointer;
   color: #673ab7
 }
+
+td {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
